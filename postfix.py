@@ -16,7 +16,8 @@ class PostfixInterpreter:
     def handleNumber(self, token):
         self.stack.insert(0, int(token))
 
-    # Check if a token is a variable by checking if it is not a number, operator, and an assignment operator
+    # Check if a token is a variable by checking if it is 
+    # not a number, operator, and an assignment operator
     def isVariable(self, token):
         return (
             not self.isNumber(token)
