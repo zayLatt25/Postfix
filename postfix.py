@@ -1,8 +1,10 @@
+from hashTable import HashTable
+
 class PostfixInterpreter:
     # Initialize the stack and the symbol table as empty lists
-    def __init__(self):
+    def __init__(self, hashTable):
         self.stack = []
-        self.symbolTable = {}
+        self.hashTable = hashTable
 
     # Check if a token is a number by typecasting it to an integer
     def isNumber(self, token):
@@ -126,9 +128,11 @@ class PostfixInterpreter:
         # Otherwise return the stack []
         return self.stack
 
+# Create an instance of the HashTable class
+hashTable = HashTable(26)
 
 # Create an instance of the PostfixInterpreter class
-interpreter = PostfixInterpreter()
+interpreter = PostfixInterpreter(hashTable)
 
 print("")
 print("-----Enter 'exit' to quit the program-----")
