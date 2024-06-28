@@ -125,7 +125,9 @@ class PostfixInterpreter:
             elif self.isOperator(token):
                 # Perform an operation only if the stack has at least two values
                 if len(self.stack) < 2:
-                    print("Less than 2 elements left in the stack! Skipping remaining operations...")
+                    print(
+                        "Less than 2 elements left in the stack! Skipping remaining operations..."
+                    )
                     break
 
                 self.handleOperator(token)
@@ -152,6 +154,7 @@ class PostfixInterpreter:
 
         # Otherwise return the stack []
         return self.stack
+
 
 # Create an instance of the HashTable class
 hashTable = HashTable(26)
