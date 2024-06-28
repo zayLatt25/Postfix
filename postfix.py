@@ -46,7 +46,7 @@ class PostfixInterpreter:
         # If it is a variable, get the value from the symbol table
         if self.isVariable(operand2):
             try:
-                operand2 = self.symbolTable[operand2]
+                operand2 = hashTable.search(operand2)
             except KeyError:
                 return "Variable not found: ", operand2
 
@@ -56,7 +56,7 @@ class PostfixInterpreter:
         # If it is a variable, get the value from the symbol table
         if self.isVariable(operand1):
             try:
-                operand1 = self.symbolTable[operand1]
+                operand1 = hashTable.search(operand1)
             except KeyError:
                 return "Variable not found: ", operand1
 
@@ -87,9 +87,9 @@ class PostfixInterpreter:
             return
 
         # Add the key-value pair to the symbol table
-        self.symbolTable[key] = value
+        hashTable.insert(key, value)
 
-        print("Symbol Table: ", self.symbolTable)
+        print("Symbol Table: ", hashTable.table)
 
     # Evaluate the postfix expression
     def evaluate(self, expression):
