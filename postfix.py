@@ -99,6 +99,9 @@ class PostfixInterpreter:
         # Iterate through the tokens
         for token in tokens:
 
+            print("Reading Token: ", token)
+            print("Stack: ", self.stack)
+
             if self.isNumber(token):
                 self.handleNumber(token)
 
@@ -115,7 +118,7 @@ class PostfixInterpreter:
             # Return an error message
             else:
                 self.stack = []
-                return f"Invalid token(s): {token} "
+                return f"Invalid Token(s): {token} "
 
         # Return the top value of the stack if length is 1
         if len(self.stack) == 1:
@@ -125,8 +128,8 @@ class PostfixInterpreter:
         if len(self.stack) > 1:
             self.stack = []
 
-        # Otherwise return the stack []
-        return self.stack
+        # Otherwise return the stack []clear
+        return f"Stack: {self.stack}"
 
 # Create an instance of the HashTable class
 hashTable = HashTable(26)
