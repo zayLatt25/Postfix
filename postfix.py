@@ -64,7 +64,15 @@ class PostfixInterpreter:
 
         print(f"Calculating:  {operand1} {token} {operand2}")
         # Calculate the result and insert it into the stack
-        result = eval(f"{operand1} {token} {operand2}")
+        if token == "/":
+            result = operand1 / operand2
+        elif token == "*":
+            result = operand1 * operand2
+        elif token == "+":
+            result = operand1 + operand2
+        elif token == "-":
+            result = operand1 - operand2
+
         self.stack.insert(0, result)
 
     # Check if a token is an assignment operator
@@ -121,7 +129,8 @@ class PostfixInterpreter:
             # Return an error message
             else:
                 self.stack = []
-                return f"Invalid Token(s): {token} "
+                print(f"Invalid Token Found: {token} ")
+                return self.stack
 
         # Return the top value of the stack if length is 1
         if len(self.stack) == 1:
@@ -130,8 +139,9 @@ class PostfixInterpreter:
         # Clear the stack if the length of the stack is greater than 1
         if len(self.stack) > 1:
             self.stack = []
+            print("Invalid Expression! Please check your expression and try again.")
 
-        # Otherwise return the stack []clear
+        # Otherwise return the stack []
         return self.stack
 
 # Create an instance of the HashTable class
