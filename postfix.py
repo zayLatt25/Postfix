@@ -47,20 +47,24 @@ class PostfixInterpreter:
         # Check if the operand is a variable
         # If it is a variable, get the value from the symbol table
         if self.isVariable(operand2):
-            try:
-                operand2 = hashTable.search(operand2)
-            except KeyError:
-                return "Variable not found:", operand2
+            # Save the variable name
+            variable2 = operand2
+            operand2 = hashTable.search(operand2)
+            if operand2 is None:
+                print("Variable not found:", variable2)
+                return
 
         # Pop the first operand from the stack
         operand1 = self.stack.pop(0)
         # Check if the operand is a variable
         # If it is a variable, get the value from the symbol table
         if self.isVariable(operand1):
-            try:
-                operand1 = hashTable.search(operand1)
-            except KeyError:
-                return "Variable not found:", operand1
+            # Save the variable name
+            variable1 = operand1
+            operand1 = hashTable.search(operand1)
+            if operand1 is None:
+                print("Variable not found:", variable1)
+                return
 
         print(f"Operator Found! Calculating: {operand1} {token} {operand2}")
         # Calculate the result and insert it into the stack
@@ -115,6 +119,7 @@ class PostfixInterpreter:
 
             print("Stack:", self.stack)
             print("Reading Token:", token)
+            print("")
 
             if self.isNumber(token):
                 self.handleNumber(token)
@@ -144,6 +149,12 @@ class PostfixInterpreter:
 
         # Return the top value of the stack if length is 1
         if len(self.stack) == 1:
+            # Check if the last value is a variable
+            # Return empty stack if it is a variable
+            if self.isVariable(self.stack[0]):
+                self.stack = []
+                return self.stack
+
             print("Expression Evaluated Successfully! Final Stack:", self.stack)
             return self.stack.pop(0)
 
