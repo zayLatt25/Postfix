@@ -9,9 +9,9 @@ class PostfixInterpreter:
     # Check if a token is a number by typecasting it to an integer
     def isNumber(self, token):
         try:
-            num = float(token)
+            float(token)
             # Check if the number is greater than 0
-            return num > 0
+            return True
         # If the token cannot be typecasted to an integer, it is not a number, return False
         except ValueError:
             return False
