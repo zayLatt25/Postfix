@@ -9,8 +9,10 @@ class PostfixInterpreter:
     # Check if a token is a number by typecasting it to an integer
     def isNumber(self, token):
         try:
-            int(token)
-            return True
+            num = float(token)
+            # Check if the number is greater than 0
+            return num > 0
+        # If the token cannot be typecasted to an integer, it is not a number, return False
         except ValueError:
             return False
 
@@ -60,6 +62,7 @@ class PostfixInterpreter:
             except KeyError:
                 return "Variable not found: ", operand1
 
+        print(f"Calculating:  {operand1} {token} {operand2}")
         # Calculate the result and insert it into the stack
         result = eval(f"{operand1} {token} {operand2}")
         self.stack.insert(0, result)
@@ -129,7 +132,7 @@ class PostfixInterpreter:
             self.stack = []
 
         # Otherwise return the stack []clear
-        return f"Stack: {self.stack}"
+        return self.stack
 
 # Create an instance of the HashTable class
 hashTable = HashTable(26)
@@ -152,4 +155,4 @@ while True:
         break
 
     # Print the result of the evaluation of the expression
-    print(interpreter.evaluate(expressionInput))
+    print(f"###Result: {interpreter.evaluate(expressionInput)}###")
