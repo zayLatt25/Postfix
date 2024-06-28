@@ -80,6 +80,7 @@ class PostfixInterpreter:
         # For display UI
         print(f"Result: {result}")
         print(f"Inserting {result} into the stack...")
+        print(" ")
         self.stack.insert(0, result)
 
     # Check if a token is an assignment operator
@@ -156,6 +157,7 @@ class PostfixInterpreter:
                 return self.stack
 
             print("Expression Evaluated Successfully! Final Stack:", self.stack)
+            print(" ")
             return self.stack.pop(0)
 
         # Clear the stack if the length of the stack is greater than 1
@@ -188,4 +190,4 @@ while True:
         break
 
     # Print the result of the evaluation of the expression
-    print(f"###Result: {interpreter.evaluate(expressionInput)}###")
+    print(f"### Final Result: {interpreter.evaluate(expressionInput)} ###")
