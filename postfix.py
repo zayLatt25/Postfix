@@ -50,7 +50,7 @@ class PostfixInterpreter:
             try:
                 operand2 = hashTable.search(operand2)
             except KeyError:
-                return "Variable not found: ", operand2
+                return "Variable not found:", operand2
 
         # Pop the first operand from the stack
         operand1 = self.stack.pop(0)
@@ -60,9 +60,9 @@ class PostfixInterpreter:
             try:
                 operand1 = hashTable.search(operand1)
             except KeyError:
-                return "Variable not found: ", operand1
+                return "Variable not found:", operand1
 
-        print(f"Calculating:  {operand1} {token} {operand2}")
+        print(f"Operator Found! Calculating: {operand1} {token} {operand2}")
         # Calculate the result and insert it into the stack
         if token == "/":
             result = operand1 / operand2
@@ -73,6 +73,9 @@ class PostfixInterpreter:
         elif token == "-":
             result = operand1 - operand2
 
+        # For display UI
+        print(f"Result: {result}")
+        print(f"Inserting {result} into the stack...")
         self.stack.insert(0, result)
 
     # Check if a token is an assignment operator
@@ -100,7 +103,7 @@ class PostfixInterpreter:
         # Add the key-value pair to the symbol table
         hashTable.insert(key, value)
 
-        print("Symbol Table: ", hashTable.table)
+        print("Symbol Table:", hashTable.table)
 
     # Evaluate the postfix expression
     def evaluate(self, expression):
@@ -110,8 +113,8 @@ class PostfixInterpreter:
         # Iterate through the tokens
         for token in tokens:
 
-            print("Reading Token: ", token)
-            print("Stack: ", self.stack)
+            print("Stack:", self.stack)
+            print("Reading Token:", token)
 
             if self.isNumber(token):
                 self.handleNumber(token)
@@ -120,6 +123,11 @@ class PostfixInterpreter:
                 self.handleVariable(token)
 
             elif self.isOperator(token):
+                # Perform an operation only if the stack has at least two values
+                if len(self.stack) < 2:
+                    print("Less than 2 elements left in the stack! Skipping remaining operations...")
+                    break
+
                 self.handleOperator(token)
 
             elif self.isAssignment(token):
@@ -134,6 +142,7 @@ class PostfixInterpreter:
 
         # Return the top value of the stack if length is 1
         if len(self.stack) == 1:
+            print("Expression Evaluated Successfully! Final Stack:", self.stack)
             return self.stack.pop(0)
 
         # Clear the stack if the length of the stack is greater than 1
