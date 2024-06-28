@@ -17,3 +17,7 @@ class HashTable:
     def search(self, key):
         index = self.hash_function(key)
         return self.table[index]
+
+    def delete(self,key):
+        index = self.hash_function(key)
+        self.table[index] = -1
