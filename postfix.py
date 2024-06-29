@@ -201,13 +201,17 @@ hashTable = HashTable(26)
 interpreter = PostfixInterpreter(hashTable)
 
 print("")
-print("-----Enter 'exit' to quit the program-----")
+print("-----Welcome to Postfix++ Interpreter-----")
+print("")
+print("Special Instructions:")
+print("* Enter 'variable !' to delete a value from the symbol table")
+print("* Enter 'exit' to quit the program")
 
 while True:
 
     # Get input from the user
     print("")
-    print("Enter 'variable !' to delete a variable from the symbol table")
+    
     expressionInput = input("Please enter your Postfix Expression: ")
     print("")
 
