@@ -110,6 +110,28 @@ class PostfixInterpreter:
 
         print("Symbol Table:", hashTable.table)
 
+    # Check if a token is a delete operator
+    def isDelete(self, token):
+        if token == "!":
+            return True
+        return False
+    
+    # Delete the key-value pair from the symbol table
+    def handleDelete(self):
+        # Pop the key from the stack
+        key = self.stack.pop(0)
+
+        # Check if the key is a number
+        if self.isNumber(key):
+            print(f"Invalid delete, {key} is in the place of variable!")
+            self.stack = []
+            return
+
+        # Delete the key-value pair from the symbol table
+        hashTable.delete(key)
+
+        print("Symbol Table:", hashTable.table)
+
     # Evaluate the postfix expression
     def evaluate(self, expression):
         # Split the expression into tokens
@@ -140,6 +162,9 @@ class PostfixInterpreter:
 
             elif self.isAssignment(token):
                 self.handleAssignment()
+
+            elif self.isDelete(token):
+                self.handleDelete()
 
             # If the token is not a number, variable, operator, or assignment operator
             # Return an error message
@@ -182,6 +207,7 @@ while True:
 
     # Get input from the user
     print("")
+    print("Enter 'variable !' to delete a variable from the symbol table")
     expressionInput = input("Please enter your Postfix Expression: ")
     print("")
 
