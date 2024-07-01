@@ -16,6 +16,6 @@ class Stack:
         return self.stack[0]
     
     # This function is for debugging and displaying purposes
-    # Stack object does not have a printStack function
+    # Stack does not have a printStack function
     def returnStack(self):
         return self.stack
