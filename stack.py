@@ -19,6 +19,9 @@ class Stack:
     def peek(self):
         return self.stack[0]
     
+    def clear(self):
+        self.stack = []
+    
     # This function is for debugging and displaying purposes
     # Stack does not have a printStack function
     def returnStack(self):

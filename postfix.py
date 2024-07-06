@@ -99,7 +99,7 @@ class PostfixInterpreter:
         # Check if the value is a variable
         if self.isVariable(value):
             print(f"Invalid assignment, {value} is in the place of number!")
-            self.stack = stack
+            stack.clear()
             return
 
         # Pop the key from the stack
@@ -107,7 +107,7 @@ class PostfixInterpreter:
         # Check if the key is a number
         if self.isNumber(key):
             print(f"Invalid assignment, {key} is in the place of variable!")
-            self.stack = stack
+            stack.clear()
             return
 
         # Add the key-value pair to the symbol table
@@ -129,7 +129,7 @@ class PostfixInterpreter:
         # Check if the key is a number
         if self.isNumber(key):
             print(f"Invalid delete, {key} is in the place of variable!")
-            self.stack = stack
+            stack.clear()
             return
 
         # Delete the key-value pair from the symbol table
@@ -174,7 +174,7 @@ class PostfixInterpreter:
             # If the token is not a number, variable, operator, or assignment operator
             # Return an error message
             else:
-                self.stack = stack
+                stack.clear()
                 print(f"Invalid Token Found: {token} ")
                 return self.stack.returnStack()
 
@@ -183,7 +183,7 @@ class PostfixInterpreter:
             # Check if the last value is a variable
             # Return empty stack if it is a variable
             if self.isVariable(self.stack.peek()):
-                self.stack = stack
+                stack.clear()
                 return self.stack.returnStack()
 
             print("Expression Evaluated Successfully! Final Stack:", self.stack.returnStack())
@@ -192,7 +192,7 @@ class PostfixInterpreter:
 
         # Clear the stack if the length of the stack is greater than 1
         if self.stack.size() > 1:
-            self.stack = stack
+            stack.clear()
             print("Invalid Expression! Please check your expression and try again.")
 
         # Otherwise return the stack []
