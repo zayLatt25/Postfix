@@ -1,3 +1,7 @@
+#  @author Zay Paing Latt
+#  @course CM2035
+#  @date 28th June 2024
+
 class Stack:
     # Initialize the stack using an array
     def __init__(self):
