@@ -1,9 +1,14 @@
+#  @author Zay Paing Latt
+#  @course CM2035
+#  @date 28th June 2024
+
 from hashTable import HashTable
+from stack import Stack
 
 class PostfixInterpreter:
     # Initialize the stack and the symbol table as empty lists
-    def __init__(self, hashTable):
-        self.stack = []
+    def __init__(self, stack, hashTable):
+        self.stack = stack
         self.hashTable = hashTable
 
     # Check if a token is a number by typecasting it to an integer
@@ -18,7 +23,7 @@ class PostfixInterpreter:
 
     # Insert the number into the stack
     def handleNumber(self, token):
-        self.stack.insert(0, int(token))
+        self.stack.push(float(token))
 
     # Check if a token is a variable by checking if it is
     # not a number, operator, and an assignment operator
@@ -32,7 +37,7 @@ class PostfixInterpreter:
 
     # Insert the variable into the stack
     def handleVariable(self, token):
-        self.stack.insert(0, token)
+        self.stack.push(token)
 
     # Check if a token is an operator by checking if it is in the list of operators
     def isOperator(self, token):
@@ -43,7 +48,7 @@ class PostfixInterpreter:
     def handleOperator(self, token):
 
         # Pop the second operands from the stack
-        operand2 = self.stack.pop(0)
+        operand2 = self.stack.pop()
         # Check if the operand is a variable
         # If it is a variable, get the value from the symbol table
         if self.isVariable(operand2):
@@ -55,7 +60,7 @@ class PostfixInterpreter:
                 return
 
         # Pop the first operand from the stack
-        operand1 = self.stack.pop(0)
+        operand1 = self.stack.pop()
         # Check if the operand is a variable
         # If it is a variable, get the value from the symbol table
         if self.isVariable(operand1):
@@ -81,7 +86,7 @@ class PostfixInterpreter:
         print(f"Result: {result}")
         print(f"Inserting {result} into the stack...")
         print(" ")
-        self.stack.insert(0, result)
+        self.stack.push(result)
 
     # Check if a token is an assignment operator
     def isAssignment(self, token):
@@ -90,25 +95,25 @@ class PostfixInterpreter:
     # Create and add the key-value pair to the symbol table
     def handleAssignment(self):
         # Pop the value from the stack
-        value = self.stack.pop(0)
+        value = self.stack.pop()
         # Check if the value is a variable
         if self.isVariable(value):
             print(f"Invalid assignment, {value} is in the place of number!")
-            self.stack = []
+            stack.clear()
             return
 
         # Pop the key from the stack
-        key = self.stack.pop(0)
+        key = self.stack.pop()
         # Check if the key is a number
         if self.isNumber(key):
             print(f"Invalid assignment, {key} is in the place of variable!")
-            self.stack = []
+            stack.clear()
             return
 
         # Add the key-value pair to the symbol table
-        hashTable.insert(key, value)
+        self.hashTable.insert(key, value)
 
-        print("Symbol Table:", hashTable.table)
+        print("Symbol Table:", self.hashTable.table)
 
     # Check if a token is a delete operator
     def isDelete(self, token):
@@ -119,18 +124,18 @@ class PostfixInterpreter:
     # Delete the key-value pair from the symbol table
     def handleDelete(self):
         # Pop the key from the stack
-        key = self.stack.pop(0)
+        key = self.stack.pop()
 
         # Check if the key is a number
         if self.isNumber(key):
             print(f"Invalid delete, {key} is in the place of variable!")
-            self.stack = []
+            stack.clear()
             return
 
         # Delete the key-value pair from the symbol table
-        hashTable.delete(key)
+        self.hashTable.delete(key)
 
-        print("Symbol Table:", hashTable.table)
+        print("Symbol Table:", self.hashTable.table)
 
     # Evaluate the postfix expression
     def evaluate(self, expression):
@@ -140,7 +145,7 @@ class PostfixInterpreter:
         # Iterate through the tokens
         for token in tokens:
 
-            print("Stack:", self.stack)
+            print("Current Stack:", self.stack.returnStack())
             print("Reading Token:", token)
             print("")
 
@@ -152,7 +157,7 @@ class PostfixInterpreter:
 
             elif self.isOperator(token):
                 # Perform an operation only if the stack has at least two values
-                if len(self.stack) < 2:
+                if self.stack.size() < 2:
                     print(
                         "Less than 2 elements left in the stack! Skipping remaining operations..."
                     )
@@ -169,36 +174,37 @@ class PostfixInterpreter:
             # If the token is not a number, variable, operator, or assignment operator
             # Return an error message
             else:
-                self.stack = []
+                stack.clear()
                 print(f"Invalid Token Found: {token} ")
-                return self.stack
+                return self.stack.returnStack()
 
         # Return the top value of the stack if length is 1
-        if len(self.stack) == 1:
+        if self.stack.size() == 1:
             # Check if the last value is a variable
             # Return empty stack if it is a variable
-            if self.isVariable(self.stack[0]):
-                self.stack = []
-                return self.stack
+            if self.isVariable(self.stack.peek()):
+                stack.clear()
+                return self.stack.returnStack()
 
-            print("Expression Evaluated Successfully! Final Stack:", self.stack)
+            print("Expression Evaluated Successfully! Final Stack:", self.stack.returnStack())
             print(" ")
-            return self.stack.pop(0)
+            return self.stack.pop()
 
         # Clear the stack if the length of the stack is greater than 1
-        if len(self.stack) > 1:
-            self.stack = []
+        if self.stack.size() > 1:
+            stack.clear()
             print("Invalid Expression! Please check your expression and try again.")
 
         # Otherwise return the stack []
-        return self.stack
+        return self.stack.returnStack()
 
 
 # Create an instance of the HashTable class
 hashTable = HashTable(26)
+stack = Stack()
 
 # Create an instance of the PostfixInterpreter class
-interpreter = PostfixInterpreter(hashTable)
+interpreter = PostfixInterpreter(stack, hashTable)
 
 print("")
 print("-----Welcome to Postfix++ Interpreter-----")

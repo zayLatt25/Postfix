@@ -1,3 +1,7 @@
+#  @author Zay Paing Latt
+#  @course CM2035
+#  @date 28th June 2024
+
 class HashTable:
     # initialize the hash table with a size of 26 for the capital letters
     def __init__(self, size):
